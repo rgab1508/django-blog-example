@@ -1,0 +1,38 @@
+.helptext {
+    display: none;
+    color: gray;
+}
+
+.site-form label {
+    color: #000;
+}
+
+.errorlist li {
+    color: red;
+}
+
+.thumb-img {
+    max-width: 100%;
+}
+
+.hidee {
+    display: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .hidee {
+        display: inline;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .hidee {
+        display: block;
+    }    
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .hidee {
+        display: block;
+    } 
+}

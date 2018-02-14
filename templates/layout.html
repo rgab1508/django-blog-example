@@ -1,0 +1,66 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Marck+Script|Rancho" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav class="grey">
+            <div class="nav-wrapper">
+                <a href="{% url 'home' %}" class="brand-logo" style="padding-left:3em;font-family: 'Rancho', cursive;">Bloggy<span style="font-family: 'Marck Script', cursive;">&trade;</span></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <form action="{% url 'accounts:logout' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn black">Logout</button>
+                            </form>
+                        </li>
+                        <li>
+                            <a href="{% url 'post:create' %}" class="btn black">Create</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}" class="btn black">Login</a></li>
+                        <li><a href="{% url 'accounts:signup' %}" class="btn black">Signup</a></li>
+                    {% endif %}
+                    <li><a class='dropdown-button btn show-on-small black' href='#' data-activates='dropdown1'>Drop Me!</a></li>
+                </ul>
+                <ul id='dropdown1' class='dropdown-content black-text'>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'accounts:logout' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-flat center black-text" style="margin-left:6px;">Logout</button>
+                        </form>
+                        <li>
+                            <a href="{% url 'post:create' %}" class="black-text"><i class="fas fa-plus-circle"></i> Create</a>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}" class="black-text"><i class="fas fa-user-circle"></i> Login</a></li>
+                        <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="{% static 'main.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

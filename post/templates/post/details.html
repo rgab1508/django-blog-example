@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}{{post.title}} | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{post.title}}</h2>
+        <hr>
+        <div>
+            <img src="{{post.thumbnail.url}}" class="materialboxed responsive-img thumb-img" width="700" alt="thumbnail">
+        </div>
+        <hr>
+        <p>{{post.body}}</p>
+        <p class="left">by :- <b>{{post.author.username}}</b></p>
+        <p class="right">published on: <i>{{post.pub_date}}</i></p>
+    </div>
+    
+{% endblock content %}
+
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            $('.materialboxed').materialbox();
+        });
+    </script>
+{% endblock script %}

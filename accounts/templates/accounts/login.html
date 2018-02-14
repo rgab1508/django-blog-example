@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}Login | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h3>Login</h3>
+
+        <form action="{% url 'accounts:login' %}" method="POST" class="site-form">
+            {% csrf_token %} 
+            {{form}}
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{request.GET.next}}">
+            {% endif %}
+            <input type="submit" value="Login" class="btn grey white-text">
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}

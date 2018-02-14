@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}{{title}}{% endblock%}
+
+{% block content %}
+    <br>
+    <br>
+    <div class="container">
+        <div class="posts">
+            {% if posts %}
+                <ul class="collapsible popout" data-collapsible="accordion">
+                    {% for post in posts %}
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{post.title}}</div>
+                            <div class="collapsible-body">
+                                <span class="truncate">{{post.body}}</span>
+                                <br>
+                                <a rel="stylesheet" href="{% url 'post:detail' slug=post.slug %}" class="btn black waves-effect">Read More...</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h6>No Posts</h6>
+            {% endif %}
+        </div>
+        
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            $('.collapsible').collapsible();
+        });
+    </script>
+{% endblock %}
+
+
+
+  

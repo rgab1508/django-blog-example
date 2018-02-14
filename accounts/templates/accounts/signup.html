@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}Signup | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h3>Signup</h3>
+
+        <form action="{% url 'accounts:signup' %}" method="POST" class="site-form">
+            {% csrf_token %} 
+            {{form}}
+            <input type="submit" value="Signup" class="btn grey white-text">
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+    <script>
+        $('#id_password1').attr('data-length', '8');
+        $('#id_password1').characterCounter();
+
+        const element = document.getElementById('id_thumbnail');
+
+        let parent = element.parentNode;
+        let wrapper = document.createElement('div');
+        wrapper.classList.add('file-field');
+        wrapper.classList.add('input-field');
+        parent.replaceChild(wrapper, element);
+        wrapper.appendChild(element);
+
+        let newParent = element.parentNode;
+
+        let btnfile = document.createElement('div');
+        let s = document.createElement('span');
+        s.innerHTML = 'File';
+        btnfile.appendChild(s);
+        btnfile.classList.add('btn');
+        btnfile.classList.add('black');
+        // btnfile.classList.add('btn');
+        newParent.replaceChild(btnfile, element);
+        btnfile.appendChild(element);
+        let nd = document.createElement('div');
+        nd.classList.add('file-path-wrapper');
+        wrapper.appendChild(nd);
+        fi = document.createElement('input');
+        fi.setAttribute('type','text');
+        fi.setAttribute('placeholder', 'Upload one or more files')
+        fi.classList.add('file-path');
+        fi.classList.add('validate');
+        nd.appendChild(fi)
+    </script>
+{% endblock script %}
