@@ -21,13 +21,13 @@
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if user.is_authenticated %}
                         <li>
-                            <form action="{% url 'accounts:logout' %}" method="POST">
+                            <a href="{% url 'post:create' %}" class="btn black">Create</a>
+                        </li>
+                        <li>
+                            <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;">
                                 {% csrf_token %}
                                 <button type="submit" class="btn black">Logout</button>
                             </form>
-                        </li>
-                        <li>
-                            <a href="{% url 'post:create' %}" class="btn black">Create</a>
                         </li>
                     {% else %}
                         <li><a href="{% url 'accounts:login' %}" class="btn black">Login</a></li>

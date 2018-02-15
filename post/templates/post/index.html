@@ -11,7 +11,10 @@
                 <ul class="collapsible popout" data-collapsible="accordion">
                     {% for post in posts %}
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>{{post.title}}</div>
+                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>
+                                {{post.title}}
+                                <span class="new badge black" data-badge-caption="{{post.author}}"></span>
+                            </div>
                             <div class="collapsible-body">
                                 <span class="truncate">{{post.body}}</span>
                                 <br>
