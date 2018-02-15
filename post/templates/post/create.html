@@ -4,17 +4,57 @@
 
 {% block content %}
     <div class="container">
-        <h2>Create</h2>
-
-        <form action="{% url 'post:create' %}" method="POST" enctype="multipart/form-data" class="create-form">
-            {% csrf_token %}
-            {{form}}
-            <br>
-            <input type="submit" value="Create" class="btn black">
-        </form>
+        <div class="row ">
+            <form action="{% url 'post:create' %}" method="POST" enctype="multipart/form-data" class="create-form col s12 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;color:white;">
+                <h3>Create</h3>
+                {% csrf_token %}
+                {% comment %} {{form.as_p}} {% endcomment %}
+                <div class="input-field white-text">
+                    {{form.title}}
+                    {{form.title.label_tag}}
+                </div>
+                <div class="input-field white-text">
+                    {{form.body}}
+                    {{form.body.label_tag}}
+                </div>
+                <div class="input-field white-text">
+                    {{form.slug}}
+                    {{form.slug.label_tag}}
+                </div>
+                <div class="file-field input-field white-text">
+                <div class="btn black">
+                    <span>Thumbnail</span>
+                    {{form.thumbnail}}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
+                </div>
+                <br>
+                <input type="submit" value="Create" class="btn black">
+            </form>
+        </div>
     </div>
 {% endblock content %}
 
 {% block script %}
+    <script>
+        $('#id_title').attr('placeholder', 'Title ..');
+        $('#id_body').attr('placeholder', 'Body here..');
+        $('#id_slug').attr('placeholder', 'Slug ..');
 
+        let _title = document.getElementById('id_title');//document.querySelector(input[name='title']);$('#id_title');
+
+        let _slug = document.getElementById('id_slug')//document.querySelector(input[name=slug]);$('#id_slug');
+
+        const slugify = (v) => {
+            return v.toString().toLowerCase().trim()
+                .replace(/&/g, '-and-')
+                .replace(/[\s\W-]+/g, '-')
+        };
+
+        _title.addEventListener('keyup', (e) =>{
+            _slug.setAttribute('value', slugify(_title.value));
+        });
+    </script>
 {% endblock script %}

@@ -4,50 +4,46 @@
 
 {% block content %}
     <div class="container">
-        <h3>Signup</h3>
-
-        <form action="{% url 'accounts:signup' %}" method="POST" class="site-form">
+        {% comment %} <form action="{% url 'accounts:signup' %}" method="POST" class="site-form">
             {% csrf_token %} 
             {{form}}
             <input type="submit" value="Signup" class="btn grey white-text">
-        </form>
+        </form> {% endcomment %}
+        <div class="row">
+                <form action="{% url 'accounts:signup' %}" method="POST" class="site-form col s6 offset-s3 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;color:white;">
+                    <h3>Signup</h3>
+                    {% csrf_token %}
+                    <div class="input-field">
+                        {{form.username}}
+                        {{form.username.label_tag}}
+                    </div>
+                    <br>
+                    <div class="input-field">
+                        {{form.password1}}
+                        {{form.password1.label_tag}}
+                    </div>
+                    <div class="input-field" style="margin-bottom:2rem;">
+                        {{form.password2}}
+                        {{form.password2.label_tag}}
+                    </div>
+                    {% comment %} {{form.as_p}} {% endcomment %}
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{request.GET.next}}">
+                    {% endif %}
+                    <input type="submit" value="Signup" class="btn white black-text">
+                </form>
+            </div>
     </div>
 
 {% endblock content %}
 
 {% block script %}
     <script>
-        $('#id_password1').attr('data-length', '8');
-        $('#id_password1').characterCounter();
-
-        const element = document.getElementById('id_thumbnail');
-
-        let parent = element.parentNode;
-        let wrapper = document.createElement('div');
-        wrapper.classList.add('file-field');
-        wrapper.classList.add('input-field');
-        parent.replaceChild(wrapper, element);
-        wrapper.appendChild(element);
-
-        let newParent = element.parentNode;
-
-        let btnfile = document.createElement('div');
-        let s = document.createElement('span');
-        s.innerHTML = 'File';
-        btnfile.appendChild(s);
-        btnfile.classList.add('btn');
-        btnfile.classList.add('black');
-        // btnfile.classList.add('btn');
-        newParent.replaceChild(btnfile, element);
-        btnfile.appendChild(element);
-        let nd = document.createElement('div');
-        nd.classList.add('file-path-wrapper');
-        wrapper.appendChild(nd);
-        fi = document.createElement('input');
-        fi.setAttribute('type','text');
-        fi.setAttribute('placeholder', 'Upload one or more files')
-        fi.classList.add('file-path');
-        fi.classList.add('validate');
-        nd.appendChild(fi)
+        $('#id_username').attr('data-length', '15');
+        $('#id_password1').attr('data-length', '20');
+        $('#id_password2').attr('data-length', '20');
+        
+        $('input#id_username, textarea#id_password1, input#id_password2').characterCounter();
+        
     </script>
 {% endblock script %}

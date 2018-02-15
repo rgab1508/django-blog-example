@@ -7,6 +7,10 @@
     color: #000;
 }
 
+.p-20 {
+    padding: 20px;
+}
+
 .errorlist li {
     color: red;
 }

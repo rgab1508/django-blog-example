@@ -10,6 +10,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Marck+Script|Rancho" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block style %}{% endblock style %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -32,9 +33,9 @@
                         <li><a href="{% url 'accounts:login' %}" class="btn black">Login</a></li>
                         <li><a href="{% url 'accounts:signup' %}" class="btn black">Signup</a></li>
                     {% endif %}
-                    <li><a class='dropdown-button btn show-on-small black' href='#' data-activates='dropdown1'>Drop Me!</a></li>
+                    {% comment %} <li><a class='dropdown-button btn show-on-small black' href='#' data-activates='dropdown1'>Drop Me!</a></li> {% endcomment %}
                 </ul>
-                <ul id='dropdown1' class='dropdown-content black-text'>
+                {% comment %} <ul id='dropdown1' class='dropdown-content black-text'>
                     {% if user.is_authenticated %}
                         <form action="{% url 'accounts:logout' %}" method="POST">
                             {% csrf_token %}
@@ -47,7 +48,7 @@
                         <li><a href="{% url 'accounts:login' %}" class="black-text"><i class="fas fa-user-circle"></i> Login</a></li>
                         <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
                     {% endif %}
-                </ul>
+                </ul> {% endcomment %}
             </div>
         </nav>
     </header>

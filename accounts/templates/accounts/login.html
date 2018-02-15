@@ -1,23 +1,53 @@
 {% extends "layout.html" %}
 
+{% block style %}
+    <style>
+        .p-20 {
+            padding-top:2em;
+            padding-bottom: 2em;
+            padding-left: 4em;
+            padding-right: 4em;
+        }
+    </style>
+    
+{% endblock style %}
 {% block title %}Login | Bloggy{% endblock title %}
 
 {% block content %}
     <div class="container">
-        <h3>Login</h3>
-
-        <form action="{% url 'accounts:login' %}" method="POST" class="site-form">
-            {% csrf_token %} 
-            {{form}}
-            {% if request.GET.next %}
-                <input type="hidden" name="next" value="{{request.GET.next}}">
-            {% endif %}
-            <input type="submit" value="Login" class="btn grey white-text">
-        </form>
+        
+        <div class="row">
+            <form action="{% url 'accounts:login' %}" method="POST" class="site-form col s6 offset-s3 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;">
+                <h3>Login</h3>
+                {% csrf_token %}
+                <div class="input-field">
+                    {{form.username}}
+                    {{form.username.label_tag}}
+                </div>
+                <br>
+                <div class="input-field">
+                    {{form.password}}
+                    {{form.password.label_tag}}
+                </div>
+                {% comment %} {{form.as_p}} {% endcomment %}
+                {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{request.GET.next}}">
+                {% endif %}
+                <input type="submit" value="Login" class="btn white black-text">
+                <a href="{% url 'accounts:signup' %}" class="btn white black-text right">Signup?</a>
+            </form>
+        </div>
+        
     </div>
 
 {% endblock content %}
 
 {% block script %}
-
+    <script>
+    $(document).ready(function() {
+        $('#id_username').attr('data-length', '15')
+        $('#id_password').attr('data-length', '20')
+        $('input#id_username, textarea#id_password').characterCounter();
+    });
+    </script>
 {% endblock script %}
