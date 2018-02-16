@@ -15,3 +15,4 @@ pwd.attr('placeholder', 'Password');
 const cbody = $('#id_body');
 
 cbody.addClass('materialize-textarea');
+$(".button-collapse").sideNav();

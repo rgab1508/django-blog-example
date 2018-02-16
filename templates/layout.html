@@ -17,8 +17,11 @@
     <header>
         <nav class="grey">
             <div class="nav-wrapper">
-                <a href="{% url 'home' %}" class="brand-logo" style="padding-left:3em;font-family: 'Marck Script', cursive;">Bloggy<span>&trade;</span></a>
+                <a href="{% url 'home' %}" class="brand-logo" style="font-family: 'Marck Script', cursive;">Bloggy<span>&trade;</span></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li>
+                            <a href="{% url 'home' %}" class="btn black">Home</a>
+                        </li>
                     {% if user.is_authenticated %}
                         <li>
                             <a href="{% url 'post:create' %}" class="btn black">Create</a>
@@ -49,6 +52,52 @@
                         <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
                     {% endif %}
                 </ul> {% endcomment %}
+                <ul id="slide-out" class="side-nav">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <div class="user-view">
+                            <div class="background">
+                                <img src="http://materializecss.com/images/office.jpg">
+                            </div>
+                            <a href="#!user"><img class="circle" src="http://materializecss.com/images/yuna.jpg"></a>
+                            <a href="#!name"><span class="white-text name">{{user.username}}</span></a>
+                            <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li>
+                            <div class="user-view">
+                            <div class="background">
+                                <img src="http://materializecss.com/images/office.jpg">
+                            </div>
+                            <a href="#!user"><img class="circle" src="{% static 'img/guest-user.png' %}"></a>
+                            <a href="#!name"><span class="white-text name">Guest</span></a>
+                            {% comment %} <a href="#!email"><span class="white-text email"></span></a> {% endcomment %}
+                            </div>
+                        </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'home' %}" class=" btn center waves-effect waves-light btn-flat white">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'post:create' %}" class="btn center waves-effect waves-light btn-flat white">Create</a>
+                        </li>
+                        <li>
+                            <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;" class="center">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-flat white" style="padding-right:0.4em;">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}"><i class="material-icons waves-effect">cloud</i>Login</a></li>
+                        <li><a href="{% url 'accounts:signup' %}" class="waves-effect">Signup</a></li>
+                        <li><div class="divider"></div></li>
+                        <li><a class="subheader">Subheader</a></li>
+                        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                    {% endif %}
+                    </ul>
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
         </nav>
     </header>

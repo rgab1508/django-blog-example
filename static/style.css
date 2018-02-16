@@ -29,14 +29,17 @@
     }
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
-    .hidee {
-        display: block;
-    }    
-}
+/* @media screen and ( max-width: 800px ){
+    body {
+        background: greenyellow;
+    }
+    .brand-logo {
+        padding: 1em;
+    }
+} */
 
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    .hidee {
-        display: block;
-    } 
+@media screen and ( min-width: 800px ){
+    .brand-logo {
+        padding-left: 3em !important;
+    }
 }
