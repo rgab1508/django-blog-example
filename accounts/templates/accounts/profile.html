@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}Profile | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h4>{{user.username}}</h4>
+        <p>{{user.email}}</p>
+        {% comment %} <p></p> {% endcomment %}
+    </div>
+{% endblock content %}
