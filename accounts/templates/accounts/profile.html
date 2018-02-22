@@ -1,11 +1,22 @@
 {% extends "layout.html" %}
-
+{% block style %}
+    <style>
+        #profileImg {
+            max-width: 100%;
+        }
+    </style>
+{% endblock style %}
 {% block title %}Profile | Bloggy{% endblock title %}
 
 {% block content %}
     <div class="container">
-        <h4>{{user.username}}</h4>
-        <p>{{user.email}}</p>
+        <h4>{{user.first_name}}</h4>
+        <p>{{user}}</p>
         {% comment %} <p></p> {% endcomment %}
     </div>
 {% endblock content %}
+{% block script %}
+    <script>
+        
+    </script>
+{% endblock script %}

@@ -25,8 +25,9 @@ SECRET_KEY = 'sh1#jeq44-w8z_0pbwxaj_80e7^-8m3_z$8enjw#5ge#9kubx$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bloggybob.herokuapp.com']
+ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounts.UserProfile'
 
 # Application definition
 
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'bloggy.urls'
@@ -71,7 +72,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bloggy.wsgi.application'
-
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.RemoteUserBackend',
+        'django.contrib.auth.backends.ModelBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -79,10 +83,10 @@ WSGI_APPLICATION = 'bloggy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bloggy',
+        'NAME': 'bloggy', #os.path.join(BASE_DIR, 'db.sqlite3'),
         'USER': os.getenv('DATABASE_USER_NAME'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST':'localhost',
         'PORT':'',
     }
 }
@@ -123,7 +127,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
@@ -134,4 +138,4 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

@@ -13,7 +13,7 @@
                         <li>
                             <div class="collapsible-header"><i class="material-icons">filter_drama</i>
                                 {{post.title}}
-                                <span class="new badge black" data-badge-caption="{{post.author}}"></span>
+                                <span class="new badge black" data-badge-caption="{{post.author.first_name}}"></span>
                             </div>
                             <div class="collapsible-body">
                                 <span class="truncate">{{post.body}}</span>
@@ -26,6 +26,11 @@
             {% else %}
                 <h6>No Posts</h6>
             {% endif %}
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large black" href="{% url 'post:create' %}">
+                    <i class="large material-icons">mode_edit</i>
+                </a>
+            </div>
         </div>
         
     </div>

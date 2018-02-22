@@ -10,12 +10,20 @@
             <input type="submit" value="Signup" class="btn grey white-text">
         </form> {% endcomment %}
         <div class="row">
-                <form action="{% url 'accounts:signup' %}" method="POST" class="site-form col s6 offset-s3 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;color:white;">
+                <form action="{% url 'accounts:signup' %}" method="POST" class="site-form col s12 m8 offset-m2 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;color:white;">
                     <h3>Signup</h3>
                     {% csrf_token %}
+                    <div class="input-field" style="margin-bottom:2rem;">
+                        {{form.first_name}}
+                        {{form.first_name.label_tag}}
+                    </div>
+                    <div class="input-field" style="margin-bottom:2rem;">
+                        {{form.last_name}}
+                        {{form.last_name.label_tag}}
+                    </div>
                     <div class="input-field">
-                        {{form.username}}
-                        {{form.username.label_tag}}
+                        {{form.email}}
+                        {{form.email.label_tag}}
                     </div>
                     <br>
                     <div class="input-field">
@@ -26,7 +34,8 @@
                         {{form.password2}}
                         {{form.password2.label_tag}}
                     </div>
-                    {% comment %} {{form.as_p}} {% endcomment %}
+                    
+                    <!-- {{form.as_p}} -->
                     {% if request.GET.next %}
                         <input type="hidden" name="next" value="{{request.GET.next}}">
                     {% endif %}
@@ -39,7 +48,9 @@
 
 {% block script %}
     <script>
-        $('#id_username').attr('data-length', '15');
+        $('#id_email').attr('data-length', '15');
+        $('#id_first_name').attr('data-length', '15');
+        $('#id_last_name').attr('data-length', '15');        
         $('#id_password1').attr('data-length', '20');
         $('#id_password2').attr('data-length', '20');
         

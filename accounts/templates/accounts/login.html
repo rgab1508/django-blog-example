@@ -17,24 +17,27 @@
     <div class="container">
         
         <div class="row">
-            <form action="{% url 'accounts:login' %}" method="POST" class="site-form col s6 offset-s3 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;">
+            <form action="{% url 'accounts:login' %}" method="POST" class="site-form col m6 s12 offset-m3 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;">
                 <h3>Login</h3>
-                {% csrf_token %}
-                <div class="input-field">
-                    {{form.username}}
-                    {{form.username.label_tag}}
+                <div class="row">
+                    {% csrf_token %}
+                    <div class="input-field col s12">
+                        {{form.email}}
+                        {{form.email.label_tag}}
+                    </div>
+                    <br>
+                    <div class="input-field col s12">
+                        {{form.password}}
+                        {{form.password.label_tag}}
+                    </div>
+                    <!-- {{form.as_p}} -->
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{request.GET.next}}">
+                    {% endif %}
+                    <input type="submit" value="Login" class="btn white black-text col m4 s4">
+                    <div class="col s1 m1"></div>
+                    <a href="{% url 'accounts:signup' %}" class="btn white black-text right col m4 s4">Signup?</a>
                 </div>
-                <br>
-                <div class="input-field">
-                    {{form.password}}
-                    {{form.password.label_tag}}
-                </div>
-                {% comment %} {{form.as_p}} {% endcomment %}
-                {% if request.GET.next %}
-                    <input type="hidden" name="next" value="{{request.GET.next}}">
-                {% endif %}
-                <input type="submit" value="Login" class="btn white black-text">
-                <a href="{% url 'accounts:signup' %}" class="btn white black-text right">Signup?</a>
             </form>
         </div>
         

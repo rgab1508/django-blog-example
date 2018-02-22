@@ -1,14 +1,13 @@
-const usrInput = $('#id_username');
-usrInput.attr('placeholder', 'Username');
 // data-length="10"
 // usrInput.attr('data-length', '12');
 // usrInput.characterCounter();
-const pwdInput = $('#id_password1');
-pwdInput.attr('placeholder', 'Password');
-const cfmPwd = $('#id_password2');
-cfmPwd.attr('placeholder', 'Confirm Password');
-const pwd = $('#id_password');
-pwd.attr('placeholder', 'Password');
+$('#id_password1').attr('placeholder', 'Password');
+$('#id_password2').attr('placeholder', 'Confirm Password');
+$('#id_password').attr('placeholder', 'Password');
+$('#id_first_name').attr('placeholder', 'First Name ..');
+$('#id_last_name').attr('placeholder', 'Last Name ..');
+$('#id_email').attr('placeholder', 'Email ..')
+
 // pwd.attr('data-length', '15');
 // pwd.characterCounter();
 

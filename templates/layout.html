@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" /> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Marck+Script|Rancho" rel="stylesheet">
@@ -52,16 +53,16 @@
                         <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
                     {% endif %}
                 </ul> {% endcomment %}
-                <ul id="slide-out" class="side-nav">
+                <ul id="slide-out" class="side-nav grey">
                     {% if user.is_authenticated %}
                         <li>
                             <div class="user-view">
                             <div class="background">
                                 <img src="http://materializecss.com/images/office.jpg">
                             </div>
-                            <a href="#!user"><img class="circle" src="http://materializecss.com/images/yuna.jpg"></a>
-                            <a href="#!name"><span class="white-text name">{{user.username}}</span></a>
-                            <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                            <a href="#!brand" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
+                            <a href="#!name"><span class="white-text name">{{user.first_name}}</span></a>
+                            <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
                             </div>
                         </li>
                     {% else %}
@@ -70,7 +71,7 @@
                             <div class="background">
                                 <img src="http://materializecss.com/images/office.jpg">
                             </div>
-                            <a href="#!user"><img class="circle" src="{% static 'img/guest-user.png' %}"></a>
+                            <a href="#!user" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
                             <a href="#!name"><span class="white-text name">Guest</span></a>
                             {% comment %} <a href="#!email"><span class="white-text email"></span></a> {% endcomment %}
                             </div>
@@ -78,15 +79,15 @@
                     {% endif %}
                     {% if user.is_authenticated %}
                         <li>
-                            <a href="{% url 'home' %}" class=" btn center waves-effect waves-light btn-flat white">Home</a>
+                            <a href="{% url 'home' %}" class=" btn center waves-effect waves-light btn-flat grey">Home</a>
                         </li>
                         <li>
-                            <a href="{% url 'post:create' %}" class="btn center waves-effect waves-light btn-flat white">Create</a>
+                            <a href="{% url 'post:create' %}" class="btn center waves-effect waves-light btn-flat grey">Create</a>
                         </li>
                         <li>
                             <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;" class="center">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-flat white" style="padding-right:0.4em;">Logout</button>
+                                <button type="submit" class="btn btn-flat grey" style="padding-right:0.4em;">Logout</button>
                             </form>
                         </li>
                     {% else %}
@@ -108,6 +109,7 @@
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous">
     </script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="{% static 'main.js' %}"></script>
     {% block script %}
