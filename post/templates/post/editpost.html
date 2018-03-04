@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit | Bloggy{% endblock title %}
+
+{% block head %}
+    {{form.media}}
+{% endblock head %}
+    
+
+{% block content %}
+    <div class="container">
+        <form action="{% url 'post:edit' %}" method="POST" enctype="multipart/form-data" class="create-form col s12 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:4rem;color:white;">
+            <h3>Edit</h3>
+            {% csrf_token %}
+            {% comment %} {{form.as_p}} {% endcomment %}
+            <div class="input-field white-text">
+                {{form.title}}
+                {{form.title.label_tag}}
+            </div>
+            <div class="input-field white-text">
+                {{form.body}}
+                {{form.body.label_tag}}
+            </div>
+            <div class="file-field input-field white-text">
+            <div class="btn black">
+                <span>Thumbnail</span>
+                {{form.thumbnail}}
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Upload one or more files">
+            </div>
+            </div>
+            <br>
+            <input type="submit" value="Save" class="btn black">
+        </form>
+    </div>
+{% endblock content %}
+    

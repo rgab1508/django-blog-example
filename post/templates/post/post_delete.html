@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{{form.media}}
+{% block title %}Delete Post | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <form action="{% url 'post:post_delete' slug=post.slug %}" method="POST">
+            {% csrf_token %}
+            <p>Sure you want to delete "{{post}}" ?</p>
+            <input type="submit" value="Confirm" class="btn red">
+            <a href="{% url 'post:detail' slug=post.slug %}" class="btn black">Cancel</a>       
+        </form>
+    </div>
+{% endblock content %}

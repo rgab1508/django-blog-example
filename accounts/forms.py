@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from .models import UserProfile
-
+from django.contrib.auth.forms import UserChangeForm
 
 class UserProfileAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -80,3 +80,14 @@ class LoginForm(forms.Form):
     # first_name = forms.CharField(label="First Name")
     # last_name = forms.CharField(label="Last Name")
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class ProfileEditForm(forms.ModelForm):
+    # email = forms.EmailField(required=True)
+    # first_name = forms.CharField(max_length=255 ,required=False)
+    # last_name = forms.CharField(max_length=255 ,required=False)
+    # bio = forms.CharField(max_length=255 ,required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ('email', 'first_name', 'last_name', 'bio')

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+
+{% block title %}Accounts | Bloggy{% endblock title %}
+    
+{% block content %}
+    <div class="container">
+        <p class="breadcrumbs" id="bc">
+            <span class="post-labels">
+                <a href="{% url 'home' %}" rel="tag" title="Home">Home</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="{% url 'accounts:accounts_index' %}" rel="tag" title="Accounts">Accounts</a>
+            </span>
+        </p>
+        <section>
+            <div class="cards">
+                <div class="row">
+                    <div class="col m12 s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title"><a href="{% url 'accounts:profile' uid=user.uid %}">Your Account</a></span>
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m12 s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title"><a href="{% url 'accounts:accounts_edit' uid=user.uid %}">Edit</a></span>
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m12 s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title"><a href="{% url 'home' %}">Delete</a></span>
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock content %}
+    

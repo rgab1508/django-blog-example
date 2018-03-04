@@ -10,9 +10,58 @@
 
 {% block content %}
     <div class="container">
-        <h4>{{user.first_name}}</h4>
-        <p>{{user}}</p>
+            <p class="breadcrumbs" id="bc">
+                <span class="post-labels">
+                    <a href="{% url 'home' %}" rel="tag" title=" ">Home</a>
+                    <i class="fa fa-angle-right"></i>
+                    <a href="{% url 'accounts:accounts_index' %}" rel="tag" title=" ">Accounts</a>
+                    <i class="fa fa-angle-right"></i>
+                    <span>{{user.first_name}}</span>
+                </span>
+            </p>
+        <div class="main" style="margin-top:5rem;">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{user.first_name}}</span>
+                    <p>{{user.email}}</p>
+                    {% if user.bio %}
+                        <p>{{user.bio}}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <section>
+                <!-- <h4>Recent posts</h4> -->
+                <ul class="collection with-header">
+                    <li class="collection-header"><h4>Recent posts</h4></li>
+                    
+                    {% for post in user_posts %}
+                        <li class="collection-item">
+                            <div>
+                                {{post.title}}
+                                
+                                {% if request.user == post.author %}
+                                    <a href="{% url 'post:edit' slug=post.slug %}" class="secondary-content">
+                                        <i class="material-icons black-text">edit</i>
+                                    </a>
+
+                                    <a href="{% url 'post:detail' slug=post.slug %}" class="secondary-content" style="margin-right: 1rem;">
+                                        <i class="material-icons black-text">remove_red_eye</i>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'post:detail' slug=post.slug %}" class="secondary-content">
+                                        <i class="material-icons black-text">remove_red_eye</i>
+                                    </a
+                                {% endif %}
+                                    
+                                
+                            </div>
+                        </li>
+                    {% endfor %} 
+                </ul>
+            </section>
         {% comment %} <p></p> {% endcomment %}
+        </div>
     </div>
 {% endblock content %}
 {% block script %}

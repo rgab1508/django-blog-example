@@ -4,6 +4,15 @@
 
 {% block content %}
     <div class="container">
+        <p class="breadcrumbs" id="bc">
+            <span class="post-labels">
+                <a href="{% url 'home' %}" rel="tag" title="Home">Home</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="{% url 'accounts:accounts_index' %}" rel="tag" title="Accounts">Accounts</a>
+                <i class="fa fa-angle-right"></i>
+                <span>Signup</span>
+            </span>
+        </p>
         {% comment %} <form action="{% url 'accounts:signup' %}" method="POST" class="site-form">
             {% csrf_token %} 
             {{form}}

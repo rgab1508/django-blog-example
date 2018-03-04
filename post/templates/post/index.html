@@ -8,21 +8,73 @@
     <div class="container">
         <div class="posts">
             {% if posts %}
+                <div class="row">
+                    <form method="GET" class="col m12 s12">
+                        <div class="row">
+                            <div class="input-field col offset-m3 offset-s2 m6 s8">
+                                <input id="search" type="search" name="q" required {% if q %}value="{{q}}"{% endif %} class="tooltipped" data-position="right" data-delay="50" data-tooltip="Search">
+                                <label class="label" for="search">Search</label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <ul class="collapsible popout" data-collapsible="accordion">
                     {% for post in posts %}
                         <li>
                             <div class="collapsible-header"><i class="material-icons">filter_drama</i>
                                 {{post.title}}
-                                <span class="new badge black" data-badge-caption="{{post.author.first_name}}"></span>
+                                
+                                {% if request.user.email == post.author.email %}
+                                    <span class="new badge black" data-badge-caption="YOU"></span>
+                                {% else %}
+                                    <span class="new badge black" data-badge-caption="{{post.author.first_name}}"></span>
+                                {% endif %}
                             </div>
                             <div class="collapsible-body">
-                                <span class="truncate">{{post.body}}</span>
+                                <div class="">{{post.get_markdown|truncatechars_html:20}}</div>
                                 <br>
                                 <a rel="stylesheet" href="{% url 'post:detail' slug=post.slug %}" class="btn black waves-effect">Read More...</a>
                             </div>
                         </li>
                     {% endfor %}
                 </ul>
+                <!-- <ul class="pagination">
+                    {% if posts.has_previous %}
+                        <li><a href="?page={{ posts.previous_page_number }}" class="waves-effect"><i class="material-icons">chevron_left</i></a></li>
+                        <li><a href="?page=1" class="waves-effect">1</a></li>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+                    </span>
+            
+                    {% if posts.has_next %}
+                        <li><a href="?page={{ posts.next_page_number }}" class="waves-effect"><i class="material-icons">chevron_right</i></a></li>
+                        <li><a href="?page={{ contacts.paginator.num_pages }}" class="waves-effect">last &raquo;</a></li>
+                    {% endif %}
+                </ul> -->
+                {% if posts.has_other_pages %}
+                    <ul class="pagination">
+                        {% if posts.has_previous %}
+                            <li class="waves-effect"><a href="?page={{ posts.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{%endif%}"><i class="material-icons">chevron_left</i></a></li>
+                        {% else %}
+                            <li class="disabled"><i class="material-icons">chevron_left</i></li>
+                        {% endif %}
+                        {% for i in posts.paginator.page_range %}
+                            {% if posts.number == i %}
+                                <li class="active waves-effect"><a href="?page={{ i }}{%if request.GET.q %}&q={{request.GET.q}}{%endif%}">{{i}}</a></li>
+                            {% else %}
+                                <li class="waves-effect"><a href="?page={{ i }}{%if request.GET.q %}&q={{request.GET.q}}{%endif%}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if posts.has_next %}
+                            <li class="waves-effect"><a href="?page={{ posts.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{%endif%}"><i class="material-icons">chevron_right</i></a></li>
+                        {% else %}
+                            <li class="disabled waves-effect"><i class="material-icons">chevron_right</i></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
             {% else %}
                 <h6>No Posts</h6>
             {% endif %}
@@ -40,6 +92,7 @@
     <script>
         $(document).ready(function(){
             $('.collapsible').collapsible();
+
         });
     </script>
 {% endblock %}

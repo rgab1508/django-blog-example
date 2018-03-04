@@ -1,9 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
-from .forms import SignupForm, LoginForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .forms import SignupForm, LoginForm, ProfileEditForm
 from django.views.generic import CreateView, FormView
 from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from post import models
 
 # Create your views here.
 
@@ -32,6 +36,9 @@ from django.contrib.auth.decorators import login_required
 #         form = AuthenticationForm()
 #     return render(request, 'accounts/login.html', {'form':form})
 
+def index_view(request):
+    return render(request, 'accounts/accounts_index.html', {})
+
 
 def logout_view(request):
     if request.method == 'POST':
@@ -39,9 +46,10 @@ def logout_view(request):
         return redirect('post:index')    
 
 @login_required(login_url="/accounts/login/")
-def profile_view(request):
-    user = request.user
-    return render(request, 'accounts/profile.html', {'user':user})
+def profile_view(request, uid):
+    user = get_object_or_404(UserProfile, uid=uid)
+    user_posts = models.Post.objects.filter(author=user)
+    return render(request, 'accounts/profile.html', {'user':user, 'user_posts':user_posts})
 
 class SignupView(CreateView):
     form_class = SignupForm
@@ -80,3 +88,17 @@ class LoginView(FormView):
             return redirect('post:index')
         return super(LoginView, self).form_invalid(form)
             
+@login_required(login_url="/accounts/login/")
+def profile_edit(request, uid):
+    user = get_object_or_404(UserProfile, uid=uid)
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, instance=user)
+        print(form.errors)
+        if form.is_valid():
+            user.bio = request.POST['bio']
+            print(form.errors)
+            form.save()
+            return redirect('accounts:profile', uid=user.uid)
+    else:
+        form = ProfileEditForm(instance=user)
+    return render(request, 'accounts/profile_edit.html', {'user':user, 'form':form})

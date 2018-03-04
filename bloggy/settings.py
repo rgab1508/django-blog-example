@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'post',
     'accounts',
+    'comments',
+    'pagedown',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -83,9 +86,10 @@ AUTHENTICATION_BACKENDS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bloggy', #os.path.join(BASE_DIR, 'db.sqlite3'),
-        'USER': os.getenv('DATABASE_USER_NAME'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'bloggy',
+        'USER': 'root',
+        'PASSWORD': 'abc123',
         'HOST':'localhost',
         'PORT':'',
     }
@@ -139,3 +143,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'

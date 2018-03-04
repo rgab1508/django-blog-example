@@ -25,7 +25,9 @@ urlpatterns = [
     path('', postViews.index, name='home'),
     path('admin/', admin.site.urls),
     path('post/', include('post.urls', namespace='post')),
-    path('accounts/', include('accounts.urls', namespace='accounts'))
+    path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('comments/', include('comments.urls', namespace='comments'))
+    
 ]
 
 urlpatterns += staticfiles_urlpatterns()

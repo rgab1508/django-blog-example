@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Profile | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <p class="breadcrumbs" id="bc">
+            <span class="post-labels">
+                <a href="{% url 'home' %}" rel="tag" title="Home">Home</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="{% url 'accounts:accounts_index' %}" rel="tag" title="Accounts">Accounts</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="{% url 'accounts:accounts_index' %}" rel="tag" title="Accounts">{{user.first_name}}</a>
+                <i class="fa fa-angle-right"></i>
+                <span>Edit</span>
+            </span>
+        </p>
+        <div class="row">
+            <form action="{% url 'accounts:accounts_edit' uid=user.uid %}" method="POST" class="site-form col s12 m8 offset-m2 z-depth-5 grey white-text" style="padding-bottom:3rem;padding-top: 1rem;padding-left: 4rem;padding-right: 4rem;margin-top:2rem;color:white;">
+                <h3>Edit</h3>
+                {% csrf_token %}
+                <div class="input-field" style="margin-bottom:2rem;">
+                    {{form.first_name}}
+                    {{form.first_name.label_tag}}
+                </div>
+                <div class="input-field" style="margin-bottom:2rem;">
+                    {{form.last_name}}
+                    {{form.last_name.label_tag}}
+                </div>
+                <div class="input-field">
+                    {{form.email}}
+                    {{form.email.label_tag}}
+                </div>
+                <br>
+                <div class="input-field" style="margin-bottom:2rem;">
+                    {{form.bio}}
+                    {{form.bio.label_tag}}
+                </div>
+                
+                <!-- {{form.as_p}} -->
+                {% if request.GET.next %}
+                    <input type="hidden" name="next" value="{{request.GET.next}}">
+                {% endif %}
+                <input type="submit" value="Save" class="btn white black-text">
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block script %}
+    <script>
+        $('#id_email').attr('data-length', '30');
+        $('#id_first_name').attr('data-length', '15');
+        $('#id_last_name').attr('data-length', '15');        
+        $('#id_bio').attr('data-length', '100')
+        
+        $('input#id_first_name, input#id_last_name, input#id_email, input#id_bio').characterCounter();
+    </script>
+{% endblock script %}
+    

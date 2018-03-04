@@ -11,107 +11,188 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Marck+Script|Rancho" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block head %}{% endblock head %}    
     {% block style %}{% endblock style %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.12&appId=191960298063972&autoLogAppEvents=1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <header>
-        <nav class="grey">
-            <div class="nav-wrapper">
-                <a href="{% url 'home' %}" class="brand-logo" style="font-family: 'Marck Script', cursive;">Bloggy<span>&trade;</span></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li>
-                            <a href="{% url 'home' %}" class="btn black">Home</a>
-                        </li>
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'post:create' %}" class="btn black">Create</a>
-                        </li>
-                        <li>
-                            <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn black">Logout</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'accounts:login' %}" class="btn black">Login</a></li>
-                        <li><a href="{% url 'accounts:signup' %}" class="btn black">Signup</a></li>
-                    {% endif %}
-                    {% comment %} <li><a class='dropdown-button btn show-on-small black' href='#' data-activates='dropdown1'>Drop Me!</a></li> {% endcomment %}
-                </ul>
-                {% comment %} <ul id='dropdown1' class='dropdown-content black-text'>
-                    {% if user.is_authenticated %}
-                        <form action="{% url 'accounts:logout' %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-flat center black-text" style="margin-left:6px;">Logout</button>
-                        </form>
-                        <li>
-                            <a href="{% url 'post:create' %}" class="black-text"><i class="fas fa-plus-circle"></i> Create</a>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'accounts:login' %}" class="black-text"><i class="fas fa-user-circle"></i> Login</a></li>
-                        <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
-                    {% endif %}
-                </ul> {% endcomment %}
-                <ul id="slide-out" class="side-nav grey">
-                    {% if user.is_authenticated %}
-                        <li>
-                            <div class="user-view">
-                            <div class="background">
-                                <img src="http://materializecss.com/images/office.jpg">
-                            </div>
-                            <a href="#!brand" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
-                            <a href="#!name"><span class="white-text name">{{user.first_name}}</span></a>
-                            <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
-                            </div>
-                        </li>
-                    {% else %}
-                        <li>
-                            <div class="user-view">
-                            <div class="background">
-                                <img src="http://materializecss.com/images/office.jpg">
-                            </div>
-                            <a href="#!user" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
-                            <a href="#!name"><span class="white-text name">Guest</span></a>
-                            {% comment %} <a href="#!email"><span class="white-text email"></span></a> {% endcomment %}
-                            </div>
-                        </li>
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'home' %}" class=" btn center waves-effect waves-light btn-flat grey">Home</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'post:create' %}" class="btn center waves-effect waves-light btn-flat grey">Create</a>
-                        </li>
-                        <li>
-                            <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;" class="center">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-flat grey" style="padding-right:0.4em;">Logout</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'accounts:login' %}"><i class="material-icons waves-effect">cloud</i>Login</a></li>
-                        <li><a href="{% url 'accounts:signup' %}" class="waves-effect">Signup</a></li>
-                        <li><div class="divider"></div></li>
-                        <li><a class="subheader">Subheader</a></li>
-                        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-                    {% endif %}
+        <div class="navbar-fixed">
+            <nav class="grey">
+                <div class="nav-wrapper">
+                    <a href="{% url 'home' %}" class="brand-logo" style="font-family: 'Marck Script', cursive;">Bloggy<span>&trade;</span></a>
+                    
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li>
+                                <a href="{% url 'home' %}" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Home">Home</a>
+                            </li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'accounts:accounts_index' %}" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Accounts" >Accounts</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'post:create' %}" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Create">Create</a>
+                            </li>
+                            <li>
+                                <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'accounts:login' %}" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Login">Login</a></li>
+                            <li><a href="{% url 'accounts:signup' %}" class="btn-flat tooltipped" data-position="bottom" data-delay="50" data-tooltip="Signup">Signup</a></li>
+                        {% endif %}
+                        {% comment %} <li><a class='dropdown-button btn show-on-small black' href='#' data-activates='dropdown1'>Drop Me!</a></li> {% endcomment %}
                     </ul>
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-            </div>
-        </nav>
+                    {% comment %} <ul id='dropdown1' class='dropdown-content black-text'>
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'accounts:logout' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-flat center black-text" style="margin-left:6px;">Logout</button>
+                            </form>
+                            <li>
+                                <a href="{% url 'post:create' %}" class="black-text"><i class="fas fa-plus-circle"></i> Create</a>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'accounts:login' %}" class="black-text"><i class="fas fa-user-circle"></i> Login</a></li>
+                            <li><a href="{% url 'accounts:signup' %}" class="black-text"><i class="fas fa-sign-in-alt"></i> Signup</a></li>
+                        {% endif %}
+                    </ul> {% endcomment %}
+                    <ul id="slide-out" class="side-nav">
+                        {% if user.is_authenticated %}
+                            <li>
+                                <div class="user-view">
+                                <div class="background">
+                                    <img src="http://materializecss.com/images/office.jpg">
+                                </div>
+                                <a href="#!brand" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
+                                <a href="{% url 'accounts:profile' uid=user.uid %}"><span class="name">{{user.first_name}}</span></a>
+                                <a href="{% url 'accounts:profile' uid=user.uid %}"><span class="email">{{user.email}}</span></a>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li>
+                                <div class="user-view">
+                                <div class="background">
+                                    <img src="http://materializecss.com/images/office.jpg">
+                                </div>
+                                <a href="#!user" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
+                                <a href="#!name"><span class="name">Guest</span></a>
+                                {% comment %} <a href="#!email"><span class="white-text email"></span></a> {% endcomment %}
+                                </div>
+                            </li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'home' %}" class=" btn center waves-effect waves-light btn-flat grey">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'post:create' %}" class="btn center waves-effect waves-light btn-flat grey">Create</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'accounts:accounts_index' %}" class="btn center waves-effect waves-light btn-flat grey">Accounts</a>
+                            </li>
+                            <li>
+                                <form action="{% url 'accounts:logout' %}" method="POST" style="padding:0 2rem 0 0;" class="center">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-flat grey"  style="padding-right: 8.5em;padding-left: 7em;margin-left: 1rem;margin-right: 1rem;">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'accounts:login' %}"><i class="material-icons waves-effect">cloud</i>Login</a></li>
+                            <li><a href="{% url 'accounts:signup' %}" class="waves-effect">Signup</a></li>
+                            <li><div class="divider"></div></li>
+                            <li><a class="subheader">Subheader</a></li>
+                            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                        {% endif %}
+                        </ul>
+                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+                </div>
+            </nav>
+        </div>
     </header>
-    {% block content %}
-    {% endblock %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="page-footer grey white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        
+                        {% if user.is_authenticated %}
+                            <li><a class="grey-text text-lighten-3" href="{% url 'home' %}">Home</a></li>
+                            <li><a class="grey-text text-lighten-3" href="{% url 'post:create' %}">Create</a></li>                            
+                            <li>
+                                <form action="{% url 'accounts:logout' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-flat">Logout</button>
+                                </form>
+                            </li>        
+                        {% else %}
+                            <li><a class="grey-text text-lighten-3" href="{% url 'home' %}">Home</a></li>
+                            <li><a class="grey-text text-lighten-3" href="{% url 'accounts:login' %}">Login</a></li>
+                            <li><a class="grey-text text-lighten-3" href="{% url 'accounts:signup' %}">Signup</a></li>
+                    
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2014 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
     <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous">
+        
     </script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.15/marked.min.js"></script>
     <script src="{% static 'main.js' %}"></script>
+    <script>
+        $('.marked-content').each(function() {
+            let content = $(this).text();
+            let markedContent = marked(content);
+            $(this).html(markedContent);
+        });
+        $('.marked-content img').each(function() {
+            $(this).addClass('responsive-img');
+        });
+    </script>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    /*Messages*/
+                    Materialize.toast('{{ message }}', 3000, 'rounded');
+                </script>
+            {% endfor %}
+        {% endif %}
+    
     {% block script %}
     {% endblock %}
 </body>
