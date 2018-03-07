@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.contenttypes.models import ContentType
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import SignupForm, LoginForm, ProfileEditForm
@@ -8,7 +10,8 @@ from django.views.generic import CreateView, FormView
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from post import models
-
+from bookmarks.models import BookmarkPost
+from likesdislikes.models import LikeDislike
 # Create your views here.
 
 # def signup_view(request):
@@ -48,8 +51,19 @@ def logout_view(request):
 @login_required(login_url="/accounts/login/")
 def profile_view(request, uid):
     user = get_object_or_404(UserProfile, uid=uid)
-    user_posts = models.Post.objects.filter(author=user)
-    return render(request, 'accounts/profile.html', {'user':user, 'user_posts':user_posts})
+    user_posts = models.Post.objects.filter(author=user).order_by('-pub_date')
+    user_bookmarks = BookmarkPost.objects.filter(user=user)
+    user_liked = LikeDislike.objects.likes().filter(user=user)
+    user_liked_posts = user_liked.filter(content_type=ContentType.objects.get_for_model(models.Post))
+        
+    
+    context = {
+        'user':user, 
+        'user_posts':user_posts, 
+        'user_bookmarks' : user_bookmarks, 
+        'user_liked_posts': user_liked_posts
+    }
+    return render(request, 'accounts/profile.html', context)
 
 class SignupView(CreateView):
     form_class = SignupForm
@@ -102,3 +116,24 @@ def profile_edit(request, uid):
     else:
         form = ProfileEditForm(instance=user)
     return render(request, 'accounts/profile_edit.html', {'user':user, 'form':form})
+
+
+def users_view(request):
+    user = request.user
+    users = UserProfile.objects.all().exclude(email=user.email)
+    context = {
+        'user':user,
+        'users':users
+    }
+    return render(request, 'accounts/all_users.html', context)
+
+@login_required(login_url="/accounts/login/")
+def delete_view(request):
+    user = request.user
+    
+    if request.method == 'POST':
+        user.delete()
+        messages.add_message(request, messages.SUCCESS, 'Account Deleted')
+        return redirect('accounts:signup')
+    context = {}
+    return render(request, 'accounts/delete.html', context)

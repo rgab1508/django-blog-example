@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -10,16 +11,20 @@ from comments.models import Comment
 from .utils import rand_slug
 from pagedown.widgets import PagedownWidget
 from markdown_deux import markdown
+from likesdislikes.models import LikeDislike
 # Create your models here.
 
 class PostManager(models.Manager):
-    pass
+    
+    def get_bookmark_count(self):
+        return self.bookmarkpost_set().all().count()
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
     body = models.TextField()
     slug = models.SlugField(max_length=8,unique=True)
     pub_date = models.DateTimeField(auto_now_add=True)
+    votes = GenericRelation(LikeDislike, related_query_name='posts')
     thumbnail = models.ImageField(default='default.jpg', blank=True)
     author = models.ForeignKey(UserProfile ,on_delete=models.CASCADE, default=None)
 
@@ -58,5 +63,14 @@ def post_pre_save(signal, instance, sender, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
 
+
+# class LikePost(models.Model):
+#     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+#     liked_at = models.DateTimeField(auto_now_add=True)
+
+
+
+##### signals ######
 # Execute signals pre_save
 pre_save.connect(post_pre_save, sender=Post)

@@ -27,10 +27,27 @@
                 <div class="card-content">
                     <p class="">{{post.get_markdown | safe}}</p>
                 </div>
-                <div class="card-action">
-                    <span class="new badge black" data-badge-caption="">author:<a href="{% url 'accounts:profile' uid=post.author.uid %}" style="margin-right:0;">{{post.author.first_name}}</a></span>
-                    <span class="new badge black" data-badge-caption="{{ post.pub_date|timesince }} ago."></span>
-                    <p></p>
+                <div class="card-action row">
+                    <ul class="col m6 s12">
+                        <div class="row">
+                            <li data-id="{{ post.id }}" data-type="post" data-action="like" title="Like" class="col m4">
+                                <i class="material-icons" id="thumbUpBtn">thumb_up</i>
+                                <span data-count="like">{{ post.votes.likes.count }}</span>
+                            </li>
+                            <li data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Dislike" class="col m4">
+                                <i class="material-icons" id="thumbDownBtn">thumb_down</i>
+                                <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
+                            </li>
+                            <li data-id="{{ post.id }}" data-type="post" data-action="bookmark" title="Favorites" class="col m4">
+                                <i class="material-icons">favorite</i>
+                                <span data-count="bookmark">{{ post.get_bookmark_count }}</span>
+                            </li>
+                        </div>
+                    </ul>
+                    <div class="info col m6 s12">
+                        <span class="new badge black" data-badge-caption="">author:<a href="{% url 'accounts:profile' uid=post.author.uid %}" style="margin-right:0;">{{post.author.first_name}}</a></span>
+                        <span class="new badge black" data-badge-caption="{{ post.pub_date|timesince }} ago."></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,4 +170,86 @@
             $('.dropdown-button').dropdown();
         </script>
     {% endfor %}
+
+    <script>
+        /*****  Like Functionality  ******/
+        /*let likedbtn = false;
+        let dislikedbtn = false; */
+        
+        function like()
+        {
+            let like = $(this);
+            let type = like.data('type');
+            let pk = like.data('id');
+            let action = like.data('action');
+            let dislike = like.next();
+        
+            $.ajax({
+                url : "/api/" + type +"/" + pk + "/" + action + "/",
+                type : 'POST',
+                data : { 'obj' : pk },
+        
+                success : function (json) {
+                    like.find("[data-count='like']").text(json.like_count);
+                    dislike.find("[data-count='dislike']").text(json.dislike_count);
+                }
+            });
+        
+            return false;
+        }
+        
+        function dislike()
+        {
+            let dislike = $(this);
+            let type = dislike.data('type');
+            let pk = dislike.data('id');
+            let action = dislike.data('action');
+            let like = dislike.prev();
+        
+            $.ajax({
+                url : "/api/" + type +"/" + pk + "/" + action + "/",
+                type : 'POST',
+                data : { 'obj' : pk },
+        
+                success : function (json) {
+                    dislike.find("[data-count='dislike']").text(json.dislike_count);
+                    like.find("[data-count='like']").text(json.like_count);
+                }
+            });
+        
+            return false;
+        }
+        
+        // Connecting Handlers
+        $(function() {
+            $('[data-action="like"]').click(like);
+            $('[data-action="dislike"]').click(dislike);
+        });
+
+        /******** BookmarkFunctionality ********/
+
+        function to_bookmarks()
+        {
+            var current = $(this);
+            var type = current.data('type');
+            var pk = current.data('id');
+            var action = current.data('action');
+
+            $.ajax({
+                url : "/api/" + type + "/" + pk + "/" + action + "/",
+                type : 'POST',
+                data : { 'obj' : pk },
+
+                success : function (json) {
+                    current.find("[data-count='" + action + "']").text(json.count);
+                }
+            });
+
+            return false;
+        }
+
+        $(function() {
+            $('[data-action="bookmark"]').click(to_bookmarks);
+        });
+    </script>
 {% endblock script %}

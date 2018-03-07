@@ -26,7 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', include('post.urls', namespace='post')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('comments/', include('comments.urls', namespace='comments'))
+    path('comments/', include('comments.urls', namespace='comments')),
+    path('api/', include('likesdislikes.urls', namespace='likesdislikes')),
+    path('api/', include('bookmarks.urls', namespace='bookmarks')),    
     
 ]
 

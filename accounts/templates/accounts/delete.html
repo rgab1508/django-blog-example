@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Delete User | Bloggy{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h4>Confirm Delete</h4>
+        <form method="POST" action="{% url 'accounts:delete' %}" style="margin-bottom:5rem;">
+            {% csrf_token %}
+            <p>Sure you want to delete Your Account ?</p>
+            <input type="submit" value="Confirm" class="btn red">
+            <a href="{% url 'home' %}" class="btn black">Cancel</a>         
+        </form>
+    </div>
+{% endblock content %}

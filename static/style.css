@@ -13,6 +13,9 @@ main {
     flex: 1 0 auto;
 }
 .navbar-fixed { z-index: 9999; }
+.tabs .indicator {
+    background-color: grey;
+}
 /* 
 .post-outer {
     margin-bottom: 10px;

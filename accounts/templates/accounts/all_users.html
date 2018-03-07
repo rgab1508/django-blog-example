@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}All Users | Bloggy{% endblock%}
+{% block content %}
+    <div class="container">
+        <p class="breadcrumbs" id="bc">
+            <span class="post-labels">
+                <a href="{% url 'home' %}" rel="tag" title=" ">Home</a>
+                <i class="fa fa-angle-right"></i>
+                <a href="{% url 'accounts:accounts_index' %}" rel="tag" title=" ">Accounts</a>
+                <i class="fa fa-angle-right"></i>
+                <span>All Users</span>
+            </span>
+        </p>
+        <div class="main" style="margin-top:5rem;">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{user.first_name}}</span>
+                    <p>{{user.email}}</p>
+                    {% if user.bio %}
+                        <p>{{user.bio}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <section id="users">
+            
+            {% for u in users %}
+                <div class="card">
+                    <div class="card-content">
+                        <a class="card-title" href="{% url 'accounts:profile' uid=u.uid %}">{{u.first_name}}</a>
+                        <p>{{u.email}}</p>
+                        {% if u.bio %}
+                            <p>{{u.bio}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+                
+        </section>
+
+    </div>
+{% endblock %}

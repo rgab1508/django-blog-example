@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post
 from comments.models import Comment
+from likesdislikes.models import LikeDislike
 from comments.forms import CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -21,6 +22,11 @@ def index(request):
             Q(author__first_name__icontains=q)|
             Q(author__last_name__icontains=q)
         ).distinct()
+
+    by = request.GET.get('by')
+    if by:
+        post_list = post_list.order_by(by)
+
     paginator = Paginator(post_list, 20) # Show 20 post per page
 
     page = request.GET.get('page')
@@ -28,7 +34,8 @@ def index(request):
     context = {
         'title': 'Home | Bloggy',
         'posts': posts,
-        'q':q
+        'q':q,
+        'by':by
     }
     return render(request, 'post/index.html', context)
     #return HttpResponse("Hello World")
@@ -81,6 +88,7 @@ def detail(request, slug):
             parent_comment=parent_comment_obj
         )
         return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
+    # like_obj = LikeDislike
     context = {
         'post':post,
         'comments':comments,
@@ -124,7 +132,7 @@ def post_delete(request, slug):
         if request.user != post.author:
             res = HttpResponse('No!')
             res.status_code = 403
-            return 
+            return res
         else:
             post.delete()
             messages.add_message(request, messages.ERROR, 'Post Deleted')

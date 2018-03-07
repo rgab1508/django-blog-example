@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'post',
     'accounts',
     'comments',
+    'likesdislikes',
+    'bookmarks',
     'pagedown',
     'markdown_deux',
 ]

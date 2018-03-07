@@ -4,7 +4,9 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+# from django.shortcuts import get
 from post.utils import rand_uid
+# from likesdislikes import models as likemodels
 # from post.models import Post
 
 class UserProfileManager(BaseUserManager):
@@ -105,6 +107,11 @@ class UserProfile(AbstractBaseUser):
     def is_active(self):
         return self.active
 
+    # @property
+    # def liked(self):
+    #     return likemodels.LikeDislike.objects.filter_by_instance(self)
+
+
     
 def get_uid(instance, uid=None):
     _uid = rand_uid()
@@ -120,5 +127,5 @@ def user_pre_save(signal, instance, sender, **kwargs):
     if not instance.uid:
         instance.uid = get_uid(instance)
 
-
+# Signals
 pre_save.connect(user_pre_save, sender=UserProfile)

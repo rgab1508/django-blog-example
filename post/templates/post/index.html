@@ -11,11 +11,23 @@
                 <div class="row">
                     <form method="GET" class="col m12 s12">
                         <div class="row">
-                            <div class="input-field col offset-m3 offset-s2 m6 s8">
-                                <input id="search" type="search" name="q" required {% if q %}value="{{q}}"{% endif %} class="tooltipped" data-position="right" data-delay="50" data-tooltip="Search">
+                            <div class="input-field col offset-s2 offset-m1 m6 s8">
+                                <input id="search" type="search" name="q" {% if q %}value="{{q}}"{% endif %} class="tooltipped" data-position="right" data-delay="50" data-tooltip="Search">
                                 <label class="label" for="search">Search</label>
-                                <i class="material-icons">close</i>
+                                <i class="material-icons">close</i>    
                             </div>
+                            <div class="input-field col m4 offset-s2 s8">
+                                <select name="by">
+                                    <option value="" disabled selected>Choose your option</option>
+                                    <option value="-pub_date" {% if by == '-pub_date' %} selected {% endif %}>Latest</option>
+                                    <option value="title" {% if by == 'title' %} selected {% endif %}>Alphabetical</option>
+                                    <option value="pub_date" {% if by == 'pub_date' %} selected {% endif %}>Oldests</option>
+                                </select>
+                                <label>Sort By</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="btn black col m4 offset-m4 s8 offset-s2">Search</button>
                         </div>
                     </form>
                 </div>
@@ -79,7 +91,7 @@
                 <h6>No Posts</h6>
             {% endif %}
             <div class="fixed-action-btn">
-                <a class="btn-floating btn-large black" href="{% url 'post:create' %}">
+                <a class="btn-floating btn-large black tooltipped" data-position="top" data-delay="50" data-tooltip="Create" href="{% url 'post:create' %}">
                     <i class="large material-icons">mode_edit</i>
                 </a>
             </div>
@@ -92,7 +104,7 @@
     <script>
         $(document).ready(function(){
             $('.collapsible').collapsible();
-
+            $('select').material_select();
         });
     </script>
 {% endblock %}
