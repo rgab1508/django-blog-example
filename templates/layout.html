@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" /> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sevillana" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Marck+Script|Rancho" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -30,7 +31,7 @@
         <div class="navbar-fixed">
             <nav class="grey">
                 <div class="nav-wrapper">
-                    <a href="{% url 'home' %}" class="brand-logo tooltipped" style="font-family: 'Marck Script', cursive;" data-position="right" data-delay="50" data-tooltip="Bloggy">Bloggy<span>&trade;</span></a>
+                    <a href="{% url 'home' %}" class="brand-logo tooltipped" style="font-family: 'Sevillana', cursive;" data-position="right" data-delay="50" data-tooltip="Bloggy">Bloggy&trade;</a>
                     
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                             <li>
@@ -73,9 +74,7 @@
                         {% if user.is_authenticated %}
                             <li>
                                 <div class="user-view">
-                                <div class="background">
-                                    <img src="http://materializecss.com/images/office.jpg">
-                                </div>
+                                <div class="background" style="background-color:black;"></div>
                                 <a href="#!brand" style="font-family: 'Marck Script', cursive;font-size:2.7rem;">Bloggy&trade;</a>
                                 <a href="{% url 'accounts:profile' uid=user.uid %}"><span class="name">{{user.first_name}}</span></a>
                                 <a href="{% url 'accounts:profile' uid=user.uid %}"><span class="email">{{user.email}}</span></a>

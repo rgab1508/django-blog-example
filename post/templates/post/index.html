@@ -12,7 +12,7 @@
                     <form method="GET" class="col m12 s12">
                         <div class="row">
                             <div class="input-field col offset-s2 offset-m1 m6 s8">
-                                <input id="search" type="search" name="q" {% if q %}value="{{q}}"{% endif %} class="tooltipped" data-position="right" data-delay="50" data-tooltip="Search">
+                                <input id="search" type="search" name="q" {% if q %}value="{{q}}"{% endif %} >
                                 <label class="label" for="search">Search</label>
                                 <i class="material-icons">close</i>    
                             </div>
@@ -27,30 +27,33 @@
                             </div>
                         </div>
                         <div class="row">
-                            <button type="submit" class="btn black col m4 offset-m4 s8 offset-s2">Search</button>
+                            <button type="submit" class="btn black col m4 offset-m4 s8 offset-s2 tooltipped" data-position="right" data-delay="50" data-tooltip="Search">Search</button>
                         </div>
                     </form>
                 </div>
-                <ul class="collapsible popout" data-collapsible="accordion">
+                
+                <ul class="collapsible popout" data-collapsible="accordion" id="postResults">
                     {% for post in posts %}
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">filter_drama</i>
-                                {{post.title}}
-                                
-                                {% if request.user.email == post.author.email %}
-                                    <span class="new badge black" data-badge-caption="YOU"></span>
-                                {% else %}
-                                    <span class="new badge black" data-badge-caption="{{post.author.first_name}}"></span>
-                                {% endif %}
-                            </div>
-                            <div class="collapsible-body">
-                                <div class="">{{post.get_markdown|truncatechars_html:20}}</div>
-                                <br>
-                                <a rel="stylesheet" href="{% url 'post:detail' slug=post.slug %}" class="btn black waves-effect">Read More...</a>
-                            </div>
-                        </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">filter_drama</i>
+                            {{post.title}}
+                            
+                            {% if request.user.email == post.author.email %}
+                                <span class="new badge black" data-badge-caption="YOU"></span>
+                            {% else %}
+                                <span class="new badge black" data-badge-caption="{{post.author.first_name}}"></span>
+                            {% endif %}
+                                <!-- <span class="new badge black" data-badge-caption="Likes">{{post.votes.likes.count}}</span> -->
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="">{{post.get_markdown|truncatechars_html:20}}</div>
+                            <br>
+                            <a rel="stylesheet" href="{% url 'post:detail' slug=post.slug %}" class="btn black waves-effect">Read More...</a>
+                        </div>
+                    </li>
                     {% endfor %}
                 </ul>
+                
                 <!-- <ul class="pagination">
                     {% if posts.has_previous %}
                         <li><a href="?page={{ posts.previous_page_number }}" class="waves-effect"><i class="material-icons">chevron_left</i></a></li>
@@ -105,6 +108,38 @@
         $(document).ready(function(){
             $('.collapsible').collapsible();
             $('select').material_select();
+
+           /* let search = $('#search');
+            search.keyup((e) => {
+                word = e.target.value;
+                console.log(word);
+                $.ajax({
+                    url : "/post/api/search/",
+                    type : 'GET',
+                    data : { 'q' : word },
+            
+                    success : function (json) {
+                        for(_ of json){
+                            post = $('#postResults');
+                            post.html(`
+                                <li>
+                                    <div class="collapsible-header"><i class="material-icons">filter_drama</i>
+                                        ${_.fields.title}
+                                    
+                                        <span class="new badge black" data-badge-caption="${_.fields.author}"></span>
+                                    </div>
+                                    <div class="collapsible-body">
+                                        <div class="">${_.fields.body}</div>
+                                        <br>
+                                        <a rel="stylesheet" href="post/${_.fields.slug}" class="btn black waves-effect">Read More...</a>
+                                    </div>
+                                </li>
+                            `)
+                        }
+                    }
+                });
+                e.preventDefault()
+            })*/
         });
     </script>
 {% endblock %}

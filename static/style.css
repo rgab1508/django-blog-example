@@ -16,7 +16,13 @@ main {
 .tabs .indicator {
     background-color: grey;
 }
-/* 
+
+.wmd-panel {
+    margin-left: 15% !important;
+    margin-right: 0 !important;
+    min-width: 300px !important;
+}
+/*
 .post-outer {
     margin-bottom: 10px;
 }

@@ -40,7 +40,8 @@ from likesdislikes.models import LikeDislike
 #     return render(request, 'accounts/login.html', {'form':form})
 
 def index_view(request):
-    return render(request, 'accounts/accounts_index.html', {})
+    context = {}
+    return render(request, 'accounts/accounts_index.html', context)
 
 
 def logout_view(request):
@@ -56,12 +57,14 @@ def profile_view(request, uid):
     user_liked = LikeDislike.objects.likes().filter(user=user)
     user_liked_posts = user_liked.filter(content_type=ContentType.objects.get_for_model(models.Post))
         
+    tab = request.GET.get('tab')
     
     context = {
         'user':user, 
         'user_posts':user_posts, 
         'user_bookmarks' : user_bookmarks, 
-        'user_liked_posts': user_liked_posts
+        'user_liked_posts': user_liked_posts,
+        'tab':tab
     }
     return render(request, 'accounts/profile.html', context)
 

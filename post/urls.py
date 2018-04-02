@@ -11,5 +11,6 @@ urlpatterns = [
     path('<slug:slug>/edit/', views.edit_view, name='edit'),
     path('<slug:slug>/delete/', views.post_delete, name='post_delete'),    
     path('<slug:slug>/', views.detail, name='detail'),
-    # path('<slug:slug>/plz/', views.edit, name='edit'),          
+    # path('<slug:slug>/plz/', views.edit, name='edit'),
+    path('api/search/', views.serach_View, name='search')         
 ]

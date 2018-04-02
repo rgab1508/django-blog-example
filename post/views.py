@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post
 from comments.models import Comment
@@ -10,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from . import forms
+
+import json
 # Create your views here.
 
 def index(request):
@@ -37,6 +40,12 @@ def index(request):
         'q':q,
         'by':by
     }
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    print("ip: {}".format(ip))
     return render(request, 'post/index.html', context)
     #return HttpResponse("Hello World")
 
@@ -139,3 +148,34 @@ def post_delete(request, slug):
             return redirect('home')
         
     return render(request, 'post/post_delete.html', {'post':post})
+
+
+def serach_View(request):
+    post_list = Post.objects.all().order_by('-pub_date')    
+    q = request.GET.get('q')
+    print(q)
+    if q:
+        post_list = post_list.filter(
+            Q(title__icontains=q)|
+            Q(body__icontains=q)|
+            Q(author__first_name__icontains=q)|
+            Q(author__last_name__icontains=q)
+        ).distinct()
+        result = True
+    else:
+        result = False
+
+    # data = {
+
+    # }
+
+    data = serializers.serialize('json', post_list)
+    return HttpResponse(data, content_type="application/json")
+
+    # return HttpResponse(
+    #     json.dumps({
+    #         "result":result,
+    #         "post_list":post_list
+    #     }),
+    #     content_type="application/json"
+    # )
